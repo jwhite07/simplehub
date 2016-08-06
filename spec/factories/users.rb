@@ -7,7 +7,7 @@ FactoryGirl.define do
     
     password 'password'
     password_confirmation 'password'
-# association :user_role
- #    association :company
+    association :user_role
+    association :organization
   end
 end

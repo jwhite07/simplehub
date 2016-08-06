@@ -10,12 +10,12 @@ RSpec.describe User, type: :model do
   it "is invalid without a last_name" do
     expect(FactoryGirl.build(:user, last_name: nil)).to be_invalid
   end
-  # it "is invalid without a company" do
-#     expect(FactoryGirl.build(:user, company_id: nil)).to be_invalid
-#   end
-#   it "is invalid without a role" do
-#     expect(FactoryGirl.build(:user, user_role_id: nil)).to be_invalid
-#   end
+  it "is invalid without a company" do
+    expect(FactoryGirl.build(:user, organization_id: nil)).to be_invalid
+  end
+  it "is invalid without a role" do
+    expect(FactoryGirl.build(:user, user_role_id: nil)).to be_invalid
+  end
   it "is invalid without an email" do
     expect(FactoryGirl.build(:user, email: nil)).to be_invalid
 
