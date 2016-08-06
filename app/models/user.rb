@@ -9,4 +9,5 @@ class User < ApplicationRecord
   
   belongs_to :user_role
   belongs_to :organization
+  accepts_nested_attributes_for :organization
 end

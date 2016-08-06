@@ -26,6 +26,7 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'teaspoon-jasmine'
   gem 'ffaker'
+  
 end
 group :test do
   gem 'capybara'
@@ -40,6 +41,7 @@ group :development do
   gem 'web-console'
   gem 'listen', '~> 3.0.5'
   gem 'better_errors'
+  gem 'binding_of_caller'
 end
 
 gem 'bower-rails'
