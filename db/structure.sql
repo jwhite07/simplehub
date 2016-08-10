@@ -46,6 +46,41 @@ CREATE TABLE ar_internal_metadata (
 
 
 --
+-- Name: integration_definitions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE integration_definitions (
+    id integer NOT NULL,
+    identifier character varying,
+    display_name character varying,
+    oauth_url character varying,
+    metrics json DEFAULT '{}'::json,
+    actions json DEFAULT '{}'::json,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: integration_definitions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE integration_definitions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: integration_definitions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE integration_definitions_id_seq OWNED BY integration_definitions.id;
+
+
+--
 -- Name: organizations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -172,6 +207,13 @@ ALTER SEQUENCE users_id_seq OWNED BY users.id;
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY integration_definitions ALTER COLUMN id SET DEFAULT nextval('integration_definitions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY organizations ALTER COLUMN id SET DEFAULT nextval('organizations_id_seq'::regclass);
 
 
@@ -195,6 +237,14 @@ ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regcl
 
 ALTER TABLE ONLY ar_internal_metadata
     ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: integration_definitions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY integration_definitions
+    ADD CONSTRAINT integration_definitions_pkey PRIMARY KEY (id);
 
 
 --
@@ -293,6 +343,6 @@ ALTER TABLE ONLY users
 
 SET search_path TO "$user", public;
 
-INSERT INTO schema_migrations (version) VALUES ('20160805181912'), ('20160806155419'), ('20160806155825'), ('20160806160118');
+INSERT INTO schema_migrations (version) VALUES ('20160805181912'), ('20160806155419'), ('20160806155825'), ('20160806160118'), ('20160810002509');
 
 

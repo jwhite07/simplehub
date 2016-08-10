@@ -7,4 +7,5 @@ RSpec.describe Organization, type: :model do
   it "is invalid without a name" do
     expect(FactoryGirl.build(:organization, name: nil)).to be_invalid
   end
+  
 end
