@@ -23,5 +23,8 @@ module Simplehub
     # -- all .rb files in that directory are automatically loaded.
     config.active_record.schema_format = :sql
     config.generators.javascript_engine :js
+    
+    config.new_org_defaults = ["Executive", "Marketing", "Operations"]
+    
   end
 end

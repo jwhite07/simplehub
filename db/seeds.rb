@@ -6,4 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-user_roles = UserRole.create([{title: 'Owner/Executive'},{title: 'Marketer'}, {title: 'Operations'}, {title: 'Other'}])
+if UserRole.count == 0
+   UserRole.create([{title: 'Owner/Executive'},{title: 'Marketer'}, {title: 'Operations'}, {title: 'Other'}])
+end
+

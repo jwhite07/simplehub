@@ -27,6 +27,20 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
+--
+-- Name: hstore; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS hstore WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION hstore; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION hstore IS 'data type for storing sets of (key, value) pairs';
+
+
 SET search_path = public, pg_catalog;
 
 SET default_tablespace = '';
@@ -46,6 +60,39 @@ CREATE TABLE ar_internal_metadata (
 
 
 --
+-- Name: dashboards; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE dashboards (
+    id integer NOT NULL,
+    title character varying,
+    organization_id integer,
+    image character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: dashboards_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE dashboards_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: dashboards_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE dashboards_id_seq OWNED BY dashboards.id;
+
+
+--
 -- Name: integration_definitions; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -57,7 +104,8 @@ CREATE TABLE integration_definitions (
     metrics json DEFAULT '{}'::json,
     actions json DEFAULT '{}'::json,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    subclass character varying
 );
 
 
@@ -78,6 +126,42 @@ CREATE SEQUENCE integration_definitions_id_seq
 --
 
 ALTER SEQUENCE integration_definitions_id_seq OWNED BY integration_definitions.id;
+
+
+--
+-- Name: integrations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE integrations (
+    id integer NOT NULL,
+    organization_id integer,
+    integration_definition_id integer,
+    name character varying DEFAULT ''::character varying,
+    token character varying DEFAULT ''::character varying,
+    dc character varying DEFAULT ''::character varying,
+    api_key character varying DEFAULT ''::character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: integrations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE integrations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: integrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE integrations_id_seq OWNED BY integrations.id;
 
 
 --
@@ -204,10 +288,97 @@ ALTER SEQUENCE users_id_seq OWNED BY users.id;
 
 
 --
+-- Name: widget_definitions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE widget_definitions (
+    id integer NOT NULL,
+    name character varying,
+    chart_settings hstore DEFAULT ''::hstore,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    template character varying DEFAULT ''::character varying,
+    data_settings hstore DEFAULT ''::hstore
+);
+
+
+--
+-- Name: widget_definitions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE widget_definitions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: widget_definitions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE widget_definitions_id_seq OWNED BY widget_definitions.id;
+
+
+--
+-- Name: widgets; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE widgets (
+    id integer NOT NULL,
+    title character varying DEFAULT ''::character varying,
+    dashboard_id integer,
+    widget_definition_id integer,
+    chart_settings hstore DEFAULT ''::hstore,
+    data_settings hstore DEFAULT ''::hstore,
+    dashboard_settings hstore DEFAULT ''::hstore,
+    integration_id integer,
+    integration_settings hstore DEFAULT ''::hstore,
+    image character varying DEFAULT ''::character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: widgets_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE widgets_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: widgets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE widgets_id_seq OWNED BY widgets.id;
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY dashboards ALTER COLUMN id SET DEFAULT nextval('dashboards_id_seq'::regclass);
+
+
+--
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY integration_definitions ALTER COLUMN id SET DEFAULT nextval('integration_definitions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY integrations ALTER COLUMN id SET DEFAULT nextval('integrations_id_seq'::regclass);
 
 
 --
@@ -232,6 +403,20 @@ ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regcl
 
 
 --
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY widget_definitions ALTER COLUMN id SET DEFAULT nextval('widget_definitions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY widgets ALTER COLUMN id SET DEFAULT nextval('widgets_id_seq'::regclass);
+
+
+--
 -- Name: ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -240,11 +425,27 @@ ALTER TABLE ONLY ar_internal_metadata
 
 
 --
+-- Name: dashboards_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY dashboards
+    ADD CONSTRAINT dashboards_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: integration_definitions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY integration_definitions
     ADD CONSTRAINT integration_definitions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: integrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY integrations
+    ADD CONSTRAINT integrations_pkey PRIMARY KEY (id);
 
 
 --
@@ -277,6 +478,43 @@ ALTER TABLE ONLY user_roles
 
 ALTER TABLE ONLY users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: widget_definitions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY widget_definitions
+    ADD CONSTRAINT widget_definitions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: widgets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY widgets
+    ADD CONSTRAINT widgets_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: index_dashboards_on_organization_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_dashboards_on_organization_id ON dashboards USING btree (organization_id);
+
+
+--
+-- Name: index_integrations_on_integration_definition_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_integrations_on_integration_definition_id ON integrations USING btree (integration_definition_id);
+
+
+--
+-- Name: index_integrations_on_organization_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_integrations_on_organization_id ON integrations USING btree (organization_id);
 
 
 --
@@ -322,6 +560,75 @@ CREATE INDEX index_users_on_user_role_id ON users USING btree (user_role_id);
 
 
 --
+-- Name: index_widgets_on_dashboard_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_widgets_on_dashboard_id ON widgets USING btree (dashboard_id);
+
+
+--
+-- Name: index_widgets_on_integration_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_widgets_on_integration_id ON widgets USING btree (integration_id);
+
+
+--
+-- Name: index_widgets_on_widget_definition_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_widgets_on_widget_definition_id ON widgets USING btree (widget_definition_id);
+
+
+--
+-- Name: fk_rails_1368d3db36; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY widgets
+    ADD CONSTRAINT fk_rails_1368d3db36 FOREIGN KEY (dashboard_id) REFERENCES dashboards(id);
+
+
+--
+-- Name: fk_rails_3cc8835226; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY dashboards
+    ADD CONSTRAINT fk_rails_3cc8835226 FOREIGN KEY (organization_id) REFERENCES organizations(id);
+
+
+--
+-- Name: fk_rails_62ec986cec; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY integrations
+    ADD CONSTRAINT fk_rails_62ec986cec FOREIGN KEY (integration_definition_id) REFERENCES integration_definitions(id);
+
+
+--
+-- Name: fk_rails_65f59bbcf1; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY widgets
+    ADD CONSTRAINT fk_rails_65f59bbcf1 FOREIGN KEY (widget_definition_id) REFERENCES widget_definitions(id);
+
+
+--
+-- Name: fk_rails_755d734f25; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY integrations
+    ADD CONSTRAINT fk_rails_755d734f25 FOREIGN KEY (organization_id) REFERENCES organizations(id);
+
+
+--
+-- Name: fk_rails_9b77ef7126; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY widgets
+    ADD CONSTRAINT fk_rails_9b77ef7126 FOREIGN KEY (integration_id) REFERENCES integrations(id);
+
+
+--
 -- Name: fk_rails_d7b9ff90af; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -343,6 +650,6 @@ ALTER TABLE ONLY users
 
 SET search_path TO "$user", public;
 
-INSERT INTO schema_migrations (version) VALUES ('20160805181912'), ('20160806155419'), ('20160806155825'), ('20160806160118'), ('20160810002509');
+INSERT INTO schema_migrations (version) VALUES ('20160805181912'), ('20160806155419'), ('20160806155825'), ('20160806160118'), ('20160810002509'), ('20160815224358'), ('20160816215134'), ('20160816220111'), ('20160816225021'), ('20160816225639'), ('20160816231817'), ('20160816231915'), ('20160817010059');
 
 

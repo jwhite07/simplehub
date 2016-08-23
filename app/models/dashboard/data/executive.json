@@ -1,0 +1,24 @@
+{
+	"title": "Executive",
+	"image": "marketing_icon.jpg",
+	"widgets_attributes": [
+		{
+			"title" : "revenue by Product",
+			"widget_definition_id" : 2, 
+			"chart_settings" : "'title'=>'Revenue by Product', 'label-text'=>'', 'title-color'=>'#626262','tooltip-text'=>'', 'background-color'=>'#F4F4F4', 'plot-border-color'=>'#DFE1E3','plot-background-color'=>'#FFFFFF'",
+			"data_settings" : "",
+			"dashboard_settings" : "'x'=>'0', 'y'=>'0', 'width'=>'200px', 'height'=>'400px'",
+			"integration_id" : 1,
+			"integration_settings" : "'integration_definition' => 'facebook'",
+			"image" : "image.jpg"
+		},{
+			"title" : "revenue by User",
+			"widget_definition_id" : 2, 
+			"chart_settings" : "'title'=>'Revenue by Product', 'label-text'=>'', 'title-color'=>'#626262','tooltip-text'=>'', 'background-color'=>'#F4F4F4', 'plot-border-color'=>'#DFE1E3','plot-background-color'=>'#FFFFFF'",
+			"data_settings" : "",
+			"dashboard_settings" : "'x'=>'0', 'y'=>'0', 'width'=>'200px', 'height'=>'400px'",
+			"integration_settings" : "'integration_definition' => 'facebook'",
+			"image" : "image.jpg"
+		}
+	]
+}

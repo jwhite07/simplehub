@@ -1,0 +1,224 @@
+--- !ruby/object:Dashboard
+raw_attributes:
+  id: 4
+  title: Executive
+  organization_id: 9
+  image: 
+  created_at: '2016-08-16 01:33:45.256715'
+  updated_at: '2016-08-16 01:33:45.256715'
+attributes: !ruby/object:ActiveRecord::AttributeSet
+  attributes: !ruby/object:ActiveRecord::LazyAttributeHash
+    types:
+      id: &1 !ruby/object:ActiveModel::Type::Integer
+        precision: 
+        scale: 
+        limit: 
+        range: !ruby/range
+          begin: -2147483648
+          end: 2147483648
+          excl: true
+      title: &2 !ruby/object:ActiveModel::Type::String
+        precision: 
+        scale: 
+        limit: 
+      organization_id: *1
+      image: *2
+      created_at: &4 !ruby/marshalable:ActiveRecord::AttributeMethods::TimeZoneConversion::TimeZoneConverter
+        :__v2__: []
+        []: &3 !ruby/object:ActiveRecord::ConnectionAdapters::PostgreSQL::OID::DateTime
+          precision: 
+          scale: 
+          limit: 
+      updated_at: &6 !ruby/marshalable:ActiveRecord::AttributeMethods::TimeZoneConversion::TimeZoneConverter
+        :__v2__: []
+        []: *3
+    values:
+      id: 4
+      title: Executive
+      organization_id: 9
+      image: 
+      created_at: '2016-08-16 01:33:45.256715'
+      updated_at: '2016-08-16 01:33:45.256715'
+    additional_types: {}
+    materialized: true
+    delegate_hash:
+      id: !ruby/object:ActiveRecord::Attribute::FromDatabase
+        name: id
+        value_before_type_cast: 4
+        type: *1
+        original_attribute: 
+        value: 4
+      title: !ruby/object:ActiveRecord::Attribute::FromDatabase
+        name: title
+        value_before_type_cast: Executive
+        type: *2
+        original_attribute: 
+        value: Executive
+      organization_id: !ruby/object:ActiveRecord::Attribute::FromDatabase
+        name: organization_id
+        value_before_type_cast: 9
+        type: *1
+        original_attribute: 
+        value: 9
+      image: !ruby/object:ActiveRecord::Attribute::FromDatabase
+        name: image
+        value_before_type_cast: 
+        type: *2
+        original_attribute: 
+        value: 
+      created_at: !ruby/object:ActiveRecord::Attribute::FromDatabase
+        name: created_at
+        value_before_type_cast: '2016-08-16 01:33:45.256715'
+        type: *4
+        original_attribute: 
+        value: !ruby/object:ActiveSupport::TimeWithZone
+          utc: &5 2016-08-16 01:33:45.256715000 Z
+          zone: &7 !ruby/object:ActiveSupport::TimeZone
+            name: Etc/UTC
+          time: *5
+      updated_at: !ruby/object:ActiveRecord::Attribute::FromDatabase
+        name: updated_at
+        value_before_type_cast: '2016-08-16 01:33:45.256715'
+        type: *6
+        original_attribute: 
+        value: !ruby/object:ActiveSupport::TimeWithZone
+          utc: &8 2016-08-16 01:33:45.256715000 Z
+          zone: *7
+          time: *8
+new_record: false
+active_record_yaml_version: 1
+---
+- !ruby/object:Widget
+  raw_attributes:
+    dashboard_id: 4
+    id: 1
+    title: Revenue by Product
+    widget_definition_id: 2
+    chart_settings: '"title"=>"Revenue by Product", "label-text"=>"", "title-color"=>"#626262",
+      "tooltip-text"=>"", "background-color"=>"#F4F4F4", "plot-border-color"=>"#DFE1E3",
+      "plot-background-color"=>"#FFFFFF"'
+    data_settings: ''
+    dashboard_settings: '"x"=>"0", "y"=>"0", "width"=>"200px", "height"=>"400px"'
+    integration_id: 1
+    integration_settings: ''
+    image: ''
+    created_at: '2016-08-18 21:53:10.973884'
+    updated_at: '2016-08-18 21:53:10.973884'
+  attributes: !ruby/object:ActiveRecord::AttributeSet
+    attributes: !ruby/object:ActiveRecord::LazyAttributeHash
+      types:
+        id: &1 !ruby/object:ActiveModel::Type::Integer
+          precision: 
+          scale: 
+          limit: 
+          range: !ruby/range
+            begin: -2147483648
+            end: 2147483648
+            excl: true
+        title: &3 !ruby/object:ActiveModel::Type::String
+          precision: 
+          scale: 
+          limit: 
+        dashboard_id: *1
+        widget_definition_id: *1
+        chart_settings: &2 !ruby/object:ActiveRecord::ConnectionAdapters::PostgreSQL::OID::Hstore
+          precision: 
+          scale: 
+          limit: 
+        data_settings: *2
+        dashboard_settings: *2
+        integration_id: *1
+        integration_settings: *2
+        image: *3
+        created_at: &5 !ruby/marshalable:ActiveRecord::AttributeMethods::TimeZoneConversion::TimeZoneConverter
+          :__v2__: []
+          []: &4 !ruby/object:ActiveRecord::ConnectionAdapters::PostgreSQL::OID::DateTime
+            precision: 
+            scale: 
+            limit: 
+        updated_at: &6 !ruby/marshalable:ActiveRecord::AttributeMethods::TimeZoneConversion::TimeZoneConverter
+          :__v2__: []
+          []: *4
+      values:
+        id: 1
+        title: Revenue by Product
+        dashboard_id: 4
+        widget_definition_id: 2
+        chart_settings: '"title"=>"Revenue by Product", "label-text"=>"", "title-color"=>"#626262",
+          "tooltip-text"=>"", "background-color"=>"#F4F4F4", "plot-border-color"=>"#DFE1E3",
+          "plot-background-color"=>"#FFFFFF"'
+        data_settings: ''
+        dashboard_settings: '"x"=>"0", "y"=>"0", "width"=>"200px", "height"=>"400px"'
+        integration_id: 1
+        integration_settings: ''
+        image: ''
+        created_at: '2016-08-18 21:53:10.973884'
+        updated_at: '2016-08-18 21:53:10.973884'
+      additional_types: {}
+      materialized: true
+      delegate_hash:
+        dashboard_id: !ruby/object:ActiveRecord::Attribute::FromDatabase
+          name: dashboard_id
+          value_before_type_cast: 4
+          type: *1
+          original_attribute: 
+          value: 4
+        id: !ruby/object:ActiveRecord::Attribute::FromDatabase
+          name: id
+          value_before_type_cast: 1
+          type: *1
+          original_attribute: 
+        title: !ruby/object:ActiveRecord::Attribute::FromDatabase
+          name: title
+          value_before_type_cast: Revenue by Product
+          type: *3
+          original_attribute: 
+        widget_definition_id: !ruby/object:ActiveRecord::Attribute::FromDatabase
+          name: widget_definition_id
+          value_before_type_cast: 2
+          type: *1
+          original_attribute: 
+        chart_settings: !ruby/object:ActiveRecord::Attribute::FromDatabase
+          name: chart_settings
+          value_before_type_cast: '"title"=>"Revenue by Product", "label-text"=>"",
+            "title-color"=>"#626262", "tooltip-text"=>"", "background-color"=>"#F4F4F4",
+            "plot-border-color"=>"#DFE1E3", "plot-background-color"=>"#FFFFFF"'
+          type: *2
+          original_attribute: 
+        data_settings: !ruby/object:ActiveRecord::Attribute::FromDatabase
+          name: data_settings
+          value_before_type_cast: ''
+          type: *2
+          original_attribute: 
+        dashboard_settings: !ruby/object:ActiveRecord::Attribute::FromDatabase
+          name: dashboard_settings
+          value_before_type_cast: '"x"=>"0", "y"=>"0", "width"=>"200px", "height"=>"400px"'
+          type: *2
+          original_attribute: 
+        integration_id: !ruby/object:ActiveRecord::Attribute::FromDatabase
+          name: integration_id
+          value_before_type_cast: 1
+          type: *1
+          original_attribute: 
+        integration_settings: !ruby/object:ActiveRecord::Attribute::FromDatabase
+          name: integration_settings
+          value_before_type_cast: ''
+          type: *2
+          original_attribute: 
+        image: !ruby/object:ActiveRecord::Attribute::FromDatabase
+          name: image
+          value_before_type_cast: ''
+          type: *3
+          original_attribute: 
+        created_at: !ruby/object:ActiveRecord::Attribute::FromDatabase
+          name: created_at
+          value_before_type_cast: '2016-08-18 21:53:10.973884'
+          type: *5
+          original_attribute: 
+        updated_at: !ruby/object:ActiveRecord::Attribute::FromDatabase
+          name: updated_at
+          value_before_type_cast: '2016-08-18 21:53:10.973884'
+          type: *6
+          original_attribute: 
+  new_record: false
+  active_record_yaml_version: 1
